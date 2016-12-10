@@ -2,6 +2,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
+var roleScout = require('role.scout');
 var checkSpawns = require('game.spawner');
 
 module.exports.loop = function () {
@@ -24,6 +25,25 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'repairer') {
             roleRepairer.run(creep);
+        }
+        if(creep.memory.role == 'scout') {
+            roleScout.run(creep);
+        }
+    }
+    var tower = Game.getObjectById('584a347d0813bdcd30365aee');
+    if(tower) {
+        var targets = creep.room.find(FIND_STRUCTURES, {
+             filter: object => object.hits < (object.hitsMax*0.9) && object.structureType != STRUCTURE_RAMPART
+            });
+
+            targets.sort((a,b) => a.hits - b.hits);
+        if(targets) {
+            tower.repair(targets[0]);
+        }
+
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
         }
     }
 }
