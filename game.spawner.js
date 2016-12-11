@@ -1,14 +1,16 @@
 
 var creepHarvester = [];
-creepHarvester = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
+creepHarvester = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE]];
 var creepBuilder = [];
 creepBuilder = [['B'],['builder'],[WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]];
 var creepRepairer = [];
-creepRepairer = [['R'],['repairer'],[WORK,WORK,CARRY,MOVE,MOVE]];
+creepRepairer = [['R'],['repairer'],[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE]];
 var creepUpgrader = []; 
 creepUpgrader = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
 var creepScout = []; 
 creepScout = [['S'],['scout'],[CLAIM,CLAIM,MOVE,MOVE]];
+var creepTransporter = []; 
+creepTransporter = [['T'],['transporter'],[CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]];
 var checkSpawns = {
     run: function() {
             
@@ -22,7 +24,7 @@ var checkSpawns = {
         if(Game.spawns['Spawn1'].canCreateCreep(creepHarvester[2], undefined) == OK)    {
             var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
             console.log('Harvesters: ' + harvesters.length);
-            if(harvesters.length < 4 && Game.spawns['Spawn1'].canCreateCreep(creepHarvester[2], undefined) == OK) {
+            if(harvesters.length < 3 && Game.spawns['Spawn1'].canCreateCreep(creepHarvester[2], undefined) == OK) {
                 makeName(creepHarvester);
                 return;
             }
@@ -34,6 +36,12 @@ var checkSpawns = {
             
             //incase harvesters get low, make them priority
             if (harvesters.length > 1) {
+                var transporters = _.filter(Game.creeps, (creep) => creep.memory.role == 'transporter');
+                console.log('Transporter: ' + transporters.length);
+                if(transporters.length < 2 && Game.spawns['Spawn1'].canCreateCreep(creepTransporter[2], undefined) == OK) {
+                    makeName(creepTransporter);
+                    return;
+                }
                 
                 var scouts = _.filter(Game.creeps, (creep) => creep.memory.role == 'scout');
                 console.log('Scouts: ' + scouts.length);
@@ -44,21 +52,21 @@ var checkSpawns = {
                 
                 var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
                 console.log('Upgraders: ' + upgraders.length);
-                if(upgraders.length < 4 && Game.spawns['Spawn1'].canCreateCreep(creepUpgrader[2], undefined) == OK) {
+                if(upgraders.length < 3 && Game.spawns['Spawn1'].canCreateCreep(creepUpgrader[2], undefined) == OK) {
                     makeName(creepUpgrader);
                     return;
                 }
             
                 var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
                 console.log('Builders: ' + builders.length);
-                if(builders.length < 2 && Game.spawns['Spawn1'].canCreateCreep(creepBuilder[2], undefined) == OK) {
+                if(builders.length < 1 && Game.spawns['Spawn1'].canCreateCreep(creepBuilder[2], undefined) == OK) {
                     makeName(creepBuilder);
                     return;
                 }
                 
                 var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
                 console.log('Repairers: ' + repairers.length);
-                if(repairers.length < 0 && Game.spawns['Spawn1'].canCreateCreep(creepRepairer[2], undefined) == OK) {
+                if(repairers.length < 2 && Game.spawns['Spawn1'].canCreateCreep(creepRepairer[2], undefined) == OK) {
                     makeName(creepRepairer);
                     return;
                 }

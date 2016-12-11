@@ -27,9 +27,9 @@ var roleUpgrader = {
                 creep.moveTo(Game.flags.Flag3);
                 return; 
             }
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1]);
+            var targets = Game.getObjectById('584cd148841625f84921cfa9');
+            if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targets);
             }
         }
 	}

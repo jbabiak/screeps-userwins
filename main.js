@@ -3,6 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleScout = require('role.scout');
+var roleTransporter = require('role.transporter');
 var checkSpawns = require('game.spawner');
 
 module.exports.loop = function () {
@@ -29,21 +30,30 @@ module.exports.loop = function () {
         if(creep.memory.role == 'scout') {
             roleScout.run(creep);
         }
+          if(creep.memory.role == 'transporter') {
+            roleTransporter.run(creep);
+        }
     }
     var tower = Game.getObjectById('584a347d0813bdcd30365aee');
     if(tower) {
-        var targets = creep.room.find(FIND_STRUCTURES, {
-             filter: object => object.hits < (object.hitsMax*0.9) && object.structureType != STRUCTURE_RAMPART
-            });
-
-            targets.sort((a,b) => a.hits - b.hits);
-        if(targets) {
-            tower.repair(targets[0]);
-        }
-
+             var targets = creep.room.find(FIND_STRUCTURES, {
+                 filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
+                });
+                if (targets.length == 0) {
+                    var targets = creep.room.find(FIND_STRUCTURES, {
+                         filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType != STRUCTURE_WALL
+                    });
+                }
+                targets.sort((a,b) => a.hits - b.hits);
+    
+                if(targets.length > 0) {
+                    tower.repair(targets[0]);
+                }
+            }
+        
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
             tower.attack(closestHostile);
+            room.controller.activateSafeMode();
         }
     }
-}
