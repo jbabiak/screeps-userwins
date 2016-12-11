@@ -7,17 +7,26 @@ var roleUpgrader = {
             creep.memory.upgrading = false;
             creep.say('harvesting');
 	    }
+
 	    if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
 	        creep.memory.upgrading = true;
 	        creep.say('upgrading');
 	    }
 
 	    if(creep.memory.upgrading) {
+	        if ((creep.name == 'U-4' || creep.name == 'U-5')  && creep.pos.roomName == 'W37S73') {
+                creep.moveTo(Game.flags.Flag2);
+                return; 
+            }
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }
         }
         else {
+            if ((creep.name == 'U-4' || creep.name == 'U-5')  && creep.pos.roomName == 'W37S74') {
+                creep.moveTo(Game.flags.Flag3);
+                return; 
+            }
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[1]);

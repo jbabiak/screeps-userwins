@@ -2,6 +2,10 @@ var roleRepairer = {
   
     /** @param {Creep} creep **/
     run: function(creep) {
+        if(creep.name == 'R-2' && creep.pos.roomName == 'W37S74') {
+            creep.moveTo(Game.flags.Flag3);
+            return;
+        }
 
         if(creep.memory.repairing && creep.carry.energy == 0) {
             creep.memory.repairing = false;
@@ -29,7 +33,7 @@ var roleRepairer = {
 
         if(creep.memory.repairing) {
             var targets = creep.room.find(FIND_STRUCTURES, {
-             filter: object => object.hits < (object.hitsMax*0.9) && object.structureType != STRUCTURE_RAMPART
+             filter: object => object.hits < (object.hitsMax) && object.structureType != STRUCTURE_RAMPART
             });
 
             targets.sort((a,b) => a.hits - b.hits);
@@ -40,12 +44,20 @@ var roleRepairer = {
                 }
             }  else {
                 creep.say('Sleeping');
-                creep.moveTo(Game.flags.Flag1);
+                creep.moveTo(Game.flags.Flag3);
             }
         } else {
-            var sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[1]);
+            if(creep.name == 'R-2') {
+                 var sources = creep.room.find(FIND_SOURCES);
+                    if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(sources[0]);
+                    }
+                }
+                 else {
+                var sources = creep.room.find(FIND_SOURCES);
+                    if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(sources[1]);
+                    }
                 }
             }
         }

@@ -20,14 +20,19 @@ var roleBuilder = {
                     creep.moveTo(targets[0]);
                 }
             } else {
-                creep.say('Sleeping');
+                var range = creep.pos.getRangeTo(Game.flags.Flag3);
+                creep.say(range);
+                if (range==0) {
+                    creep.memory.role = 'repairer';
+                    creep.say('repairtime');
+                }
                 creep.moveTo(Game.flags.Flag3);
             }
         }
         else {
             var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[1]);
             }
         }
     }

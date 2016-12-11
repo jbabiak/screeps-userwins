@@ -1,10 +1,10 @@
-var roleHarvester = {
+var roleTransporter = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
         
-        if (creep.carry.energy > 50 && creep.memory.harvesting == false){
-            if ((creep.name == 'H-3' || creep.name == 'H-4')  && creep.pos.roomName == 'W37S73') {
+        if (creep.carry.energy > 50 && creep.memory.transporting == false){
+            if ((creep.name == 'T-2' || creep.name == 'T-4')  && creep.pos.roomName == 'W37S73') {
                 creep.moveTo(Game.flags.Flag2);
                 return; 
             }
@@ -26,13 +26,13 @@ var roleHarvester = {
             if(targets.length > 0) {
                 if(creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(closestTarget);
-                    creep.say('Delivering');
+                    creep.say('Transporting');
                 }
             }
         } 
         else if(creep.carry.energy < creep.carryCapacity) {
-             creep.memory.harvesting = true;
-             if ((creep.name == 'H-3' || creep.name == 'H-4')  && creep.pos.roomName == 'W37S74') {
+             creep.memory.transporting = true;
+             if ((creep.name == 'T-2' || creep.name == 'T-4')  && creep.pos.roomName == 'W37S74') {
                 creep.moveTo(Game.flags.Flag3);
                 return;
                  
@@ -40,12 +40,12 @@ var roleHarvester = {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
-                creep.say('Harvesting');
+                creep.say('Grabbing');
             }
         } else {
-            creep.memory.harvesting = false;
+            creep.memory.transporting = false;
         }
 	}
 };
 
-module.exports = roleHarvester;
+module.exports = roleTransporter;
