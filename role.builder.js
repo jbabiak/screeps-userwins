@@ -26,13 +26,20 @@ var roleBuilder = {
                 }
             }
         }
-            else {
-                var sources = creep.room.find(FIND_SOURCES);
-                    if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(sources[1]);
-                    }
+        else {
+           if(creep.name == 'B-2') {
+            var targets = Game.getObjectById('584ccb5165f6394415df6636');
+                 if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                     creep.moveTo(targets);
+                 }
             }
-        
+             else {
+            var targets = Game.getObjectById('584d34d99871a4691e1a8750');
+                 if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                     creep.moveTo(targets);
+                 }
+            }
+        }
     }
 };
 

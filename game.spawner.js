@@ -1,12 +1,12 @@
 
 var creepHarvester = [];
-creepHarvester = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE]];
+creepHarvester = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE]];
 var creepBuilder = [];
 creepBuilder = [['B'],['builder'],[WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]];
 var creepRepairer = [];
-creepRepairer = [['R'],['repairer'],[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE]];
+creepRepairer = [['R'],['repairer'],[WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
 var creepUpgrader = []; 
-creepUpgrader = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
+creepUpgrader = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE]];
 var creepScout = []; 
 creepScout = [['S'],['scout'],[CLAIM,CLAIM,MOVE,MOVE]];
 var creepTransporter = []; 
@@ -30,7 +30,7 @@ var checkSpawns = {
             }
             //this is incase i ever completely run outta harvesters
             if (harvesters.length == 0) {
-                harvesterName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], 'Hrv-' + x, {role: 'harvester'});
+                harvesterName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], 'H-' + x, {role: 'harvester'});
                 return;
             }
             
@@ -38,7 +38,7 @@ var checkSpawns = {
             if (harvesters.length > 1) {
                 var transporters = _.filter(Game.creeps, (creep) => creep.memory.role == 'transporter');
                 console.log('Transporter: ' + transporters.length);
-                if(transporters.length < 2 && Game.spawns['Spawn1'].canCreateCreep(creepTransporter[2], undefined) == OK) {
+                if(transporters.length < 3 && Game.spawns['Spawn1'].canCreateCreep(creepTransporter[2], undefined) == OK) {
                     makeName(creepTransporter);
                     return;
                 }
@@ -52,14 +52,14 @@ var checkSpawns = {
                 
                 var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
                 console.log('Upgraders: ' + upgraders.length);
-                if(upgraders.length < 3 && Game.spawns['Spawn1'].canCreateCreep(creepUpgrader[2], undefined) == OK) {
+                if(upgraders.length < 2 && Game.spawns['Spawn1'].canCreateCreep(creepUpgrader[2], undefined) == OK) {
                     makeName(creepUpgrader);
                     return;
                 }
             
                 var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
                 console.log('Builders: ' + builders.length);
-                if(builders.length < 1 && Game.spawns['Spawn1'].canCreateCreep(creepBuilder[2], undefined) == OK) {
+                if(builders.length < 0 && Game.spawns['Spawn1'].canCreateCreep(creepBuilder[2], undefined) == OK) {
                     makeName(creepBuilder);
                     return;
                 }

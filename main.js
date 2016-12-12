@@ -11,6 +11,7 @@ module.exports.loop = function () {
     checkSpawns.run();
     for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
+       
     }
 
     for(var name in Game.creeps) {
@@ -34,6 +35,13 @@ module.exports.loop = function () {
             roleTransporter.run(creep);
         }
     }
+     var targets =  creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE);
+                                    //structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                        }
+                    });
+       
     var tower = Game.getObjectById('584a347d0813bdcd30365aee');
     if(tower) {
              var targets = creep.room.find(FIND_STRUCTURES, {

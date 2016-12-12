@@ -14,21 +14,15 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
-	        if ((creep.name == 'U-4' || creep.name == 'U-5')  && creep.pos.roomName == 'W37S73') {
-                creep.moveTo(Game.flags.Flag2);
-                return; 
-            }
+
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }
         }
         else {
-            if ((creep.name == 'U-4' || creep.name == 'U-5')  && creep.pos.roomName == 'W37S74') {
-                creep.moveTo(Game.flags.Flag3);
-                return; 
-            }
-            var targets = Game.getObjectById('584cd148841625f84921cfa9');
-            if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+
+            var targets = Game.getObjectById('584dd3818c955c9e2f778664');
+            if(targets.transfer(creep, RESOURCE_ENERGY) != 0) {
                 creep.moveTo(targets);
             }
         }
