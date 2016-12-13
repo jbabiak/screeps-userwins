@@ -24,6 +24,17 @@ var roleTransporter = {
                         }
                 });
                 if (targets.length == 0) {
+                    if (creep.name == 'T-1') {
+                        var tower = Game.getObjectById('584a347d0813bdcd30365aee');
+                        if (tower.energy <= 750) {
+                            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                                creep.moveTo(tower);
+                                creep.say('towers');
+                            }
+                            return;
+                        }
+                    }
+                        
                     targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
                             return (structure.structureType == STRUCTURE_STORAGE) &&

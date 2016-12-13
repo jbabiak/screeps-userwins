@@ -2,7 +2,8 @@ var roleRepairer = {
   
     /** @param {Creep} creep **/
     run: function(creep) {
-        if(creep.name == 'R-2' && creep.pos.roomName == 'W37S74') {
+                      
+        if(creep.name == 'R-1' && creep.pos.roomName == 'W37S74') {
             creep.moveTo(Game.flags.Flag3);
             return;
         }
@@ -48,19 +49,19 @@ var roleRepairer = {
             }
         } else {
             creep.memory.repairing = false;
-            if(creep.name == 'R-2') {
-                var targets = Game.getObjectById('584cb54e9300feab70921b67');
-                     if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                         creep.moveTo(targets);
-                     }
+            // var targets = Game.getObjectById('584cb54e9300feab70921b67');
+            var closestTarget = Game.getObjectById('5836b7698b8b9619519f054f');    
+                if(creep.harvest(closestTarget) != 0) {
+                    creep.moveTo(closestTarget);
+                    creep.say('Delivering');
                 }
-                 else {
-                var targets = Game.getObjectById('584d34d99871a4691e1a8750');
-                     if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                         creep.moveTo(targets);
-                     }
-                }
+            
+                // if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                //     creep.moveTo(targets);
+                // }
+            
             }
         }
-    }
+}
+    
 module.exports = roleRepairer;

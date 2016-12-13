@@ -5,8 +5,8 @@ var roleScout = {
     run: function(creep) {
 
         if(creep.room.controller && creep.room.controller.id != '5836b7698b8b9619519f0553' ) {
-        creep.say(creep.reserveController(creep.room.controller));
-            if(creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+        creep.say(creep.claimController(creep.room.controller));
+            if(creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }
         } else {

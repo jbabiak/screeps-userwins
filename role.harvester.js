@@ -5,18 +5,11 @@ var roleHarvester = {
         if (creep.carry.energy >= 50 && creep.memory.harvesting == false){
                     targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
+                            return (structure.structureType == STRUCTURE_CONTAINER) &&
                                     structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                         }
                     });
-                 if (targets.length == 0) {
-                    var targets = creep.room.find(FIND_STRUCTURES, {
-                        filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
-                                structure.energy < structure.energyCapacity;
-                    }
-                });
-                 } 
+                
             var closestTarget = creep.pos.findClosestByRange(targets);    
             if(targets.length > 0) {
                 if(creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -40,6 +33,7 @@ var roleHarvester = {
                             return (structure.name == creep.name);
                         }
                     });
+                    console.log(creep.name);
                 creep.moveTo(flags[0].pos);
             }
         } else {
