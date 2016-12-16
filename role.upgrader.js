@@ -2,10 +2,6 @@ var roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        if(creep.name == 'U-3' && creep.pos.roomName == 'W37S74') {
-            creep.moveTo(Game.flags.Flag3);
-            return; 
-        }
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
             creep.say('harvesting');
@@ -23,8 +19,8 @@ var roleUpgrader = {
             }
         }
         else {
-            if (creep.name == 'U-3'){
-                var targets = Game.getObjectById('584cb54e9300feab70921b67');
+            if (creep.name == 'U-3' || creep.name == 'U-4'){
+                var targets = Game.getObjectById('584f65a2beef4a6365d5c069');
             } else {
                 var targets = Game.getObjectById('584dd3818c955c9e2f778664');
             }    

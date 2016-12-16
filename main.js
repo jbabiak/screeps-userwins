@@ -35,29 +35,46 @@ module.exports.loop = function () {
             roleTransporter.run(creep);
         }
     }
-     var targets =  creep.room.find(FIND_STRUCTURES, {
-                        filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE);
-                                    //structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
-                        }
-                    });
+
        
-    var tower = Game.getObjectById('584a347d0813bdcd30365aee');
-    if(tower) {
-             var targets = creep.room.find(FIND_STRUCTURES, {
-                 filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
-                });
-                if (targets.length == 0) {
-                    var targets = creep.room.find(FIND_STRUCTURES, {
-                         filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType != STRUCTURE_WALL
-                    });
-                }
-                targets.sort((a,b) => a.hits - b.hits);
-    
-                if(targets.length > 0) {
-                    tower.repair(targets[0]);
-                }
-            }
+        var tower = Game.getObjectById('584a347d0813bdcd30365aee');
+
+        var targets = creep.room.find(FIND_STRUCTURES, {
+            filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
+        });
+        if (targets.length == 0) {
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                 filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType != STRUCTURE_RAMPART && object.structureType != STRUCTURE_WALL
+            });
+        }
+        targets.sort((a,b) => a.hits - b.hits);
+        if(targets.length > 0) {
+            tower.repair(targets[0]);
+        }
+        
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+            room.controller.activateSafeMode();
+        }
+        
+        
+        var tower = Game.getObjectById('5850371231030bbf292112bc');
+        var targets = creep.room.find(FIND_STRUCTURES, {
+            filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
+        });
+        if (targets.length == 0) {
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                 filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) 
+            });
+        }
+        targets.sort((a,b) => a.hits - b.hits);
+
+        if(targets.length > 0) {
+                                    console.log('hi');
+
+            tower.repair(targets[0]);
+        }
         
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {

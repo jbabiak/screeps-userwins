@@ -9,6 +9,14 @@ var roleHarvester = {
                                     structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                         }
                     });
+                    if (targets <= 1) {
+                       targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                                    structure.energy < structure.storeCapacity;
+                        }
+                    }); 
+                    }
                 
             var closestTarget = creep.pos.findClosestByRange(targets);    
             if(targets.length > 0) {
@@ -21,11 +29,6 @@ var roleHarvester = {
         else if(creep.carry.energy < creep.carryCapacity) {
             
              creep.memory.harvesting = true;
-             if ((creep.name == 'H-3' || creep.name == 'H-4')  && creep.pos.roomName == 'W37S74') {
-                creep.moveTo(Game.flags.Flag3);
-                return;
-                 
-             }
             var sources = creep.pos.findClosestByRange(FIND_SOURCES);
             if(creep.harvest(sources) != 0) {
                 var flags = creep.room.find(FIND_FLAGS, {
@@ -33,7 +36,6 @@ var roleHarvester = {
                             return (structure.name == creep.name);
                         }
                     });
-                    console.log(creep.name);
                 creep.moveTo(flags[0].pos);
             }
         } else {
