@@ -7,7 +7,8 @@ var roleTransporter = require('role.transporter');
 var checkSpawns = require('game.spawner');
 
 module.exports.loop = function () {
-
+    var myMemory = JSON.parse(RawMemory.get("creeps"));
+    console.log(JSON.stringify(myMemory));
     checkSpawns.run();
     for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
@@ -38,7 +39,12 @@ module.exports.loop = function () {
 
        
         var tower = Game.getObjectById('584a347d0813bdcd30365aee');
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+            room.controller.activateSafeMode();
 
+        }
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
         });
@@ -52,14 +58,15 @@ module.exports.loop = function () {
             tower.repair(targets[0]);
         }
         
+       
+        
+        
+        var tower = Game.getObjectById('5850371231030bbf292112bc');        
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
             tower.attack(closestHostile);
             room.controller.activateSafeMode();
         }
-        
-        
-        var tower = Game.getObjectById('5850371231030bbf292112bc');
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: object => object.pos.roomName == tower.pos.roomName && object.hits < (object.hitsMax * 0.9) && object.structureType == STRUCTURE_CONTAINER
         });
@@ -71,14 +78,8 @@ module.exports.loop = function () {
         targets.sort((a,b) => a.hits - b.hits);
 
         if(targets.length > 0) {
-                                    console.log('hi');
-
             tower.repair(targets[0]);
         }
         
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
-            room.controller.activateSafeMode();
-        }
+
     }

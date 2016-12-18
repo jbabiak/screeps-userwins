@@ -4,7 +4,7 @@ var roleTransporter = {
     /** @param {Creep} creep **/
     run: function(creep) {
         if (creep.memory.transporting == true && creep.carry.energy >= 50){
-            
+         
            
                 var targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
@@ -24,10 +24,11 @@ var roleTransporter = {
                         }
                     }
                      if (creep.name == 'T-3') {
-                        var target = Game.getObjectById('584f65a2beef4a6365d5c069');
+                        var target = Game.getObjectById('5850371231030bbf292112bc');
+                        if (target.energy >= 750){
+                            target = Game.getObjectById('584f65a2beef4a6365d5c069');
                         if (target.store[RESOURCE_ENERGY] >= (target.storeCapacity*0.7)){
-                            target = Game.getObjectById('5850371231030bbf292112bc');
-                                if (target.energy >= (target.storeCapacity*0.7)){
+                            
                                     target = Game.getObjectById('5852cfca48b624d8485adae9');
                                 }
                         }
@@ -80,7 +81,7 @@ var roleTransporter = {
 
             
             if (creep.name == 'T-2') {
-                targets[0] = Game.getObjectById('584d34d99871a4691e1a8750');
+                targets[0] = Game.getObjectById('584cd148841625f84921cfa9');
             }
             if (targets[0]) {
                 if(targets[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

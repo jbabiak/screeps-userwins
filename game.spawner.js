@@ -2,11 +2,12 @@
 
 var checkSpawns = {
     run: function() {
+        console.log('from mac');
         var levels = [];
         levels = [  [['T'],[3],[0]],
                     [['H'],[4],[0]],
                     [['U'],[4],[0]],
-                    [['B'],[0],[0]]
+                    [['B'],[1],[0]]
         ];    
         for(var name in Memory.creeps) {
             switch(name.charAt(0)) {
@@ -44,7 +45,7 @@ function makeName(roleLetter) {
     var role = [];
     switch(roleLetter[0]) {
         case 'H':
-            role = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE]];
+            role = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE]];
             break;
         case 'U':
             role = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE]];
