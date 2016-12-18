@@ -3,6 +3,11 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        var tower =Game.getObjectById('585620c8ad9feca47f8101c3');
+        if (creep.repair(tower) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(tower);
+        }
+        return;
         if (creep.name == "B-1" && creep.pos.roomName == "W37S74"){
             creep.moveTo(Game.flags.Flag3)
             return;

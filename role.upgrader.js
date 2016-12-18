@@ -20,13 +20,16 @@ var roleUpgrader = {
         }
         else {
             if (creep.name == 'U-3' || creep.name == 'U-4'){
-                var targets = Game.getObjectById('584f65a2beef4a6365d5c069');
+                var targets = Game.getObjectById('585566e4792310a24fc5bfb9');
             } else {
-                var targets = Game.getObjectById('584dd3818c955c9e2f778664');
+                var targets = Game.getObjectById('5851aabb1ef90b367bf3e887');
             }    
-            if(targets.transfer(creep, RESOURCE_ENERGY) != 0) {
-                    creep.moveTo(targets);
-            }
+            
+            if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+               // console.log(targets.transferEnergy(creep, RESOURCE_ENERGY));
+                        creep.moveTo(targets);
+                    }
+            
             
         }
 	}

@@ -2,12 +2,12 @@
 
 var checkSpawns = {
     run: function() {
-        console.log('from mac');
         var levels = [];
-        levels = [  [['T'],[3],[0]],
+        levels = [  [['T'],[2],[0]],
                     [['H'],[4],[0]],
                     [['U'],[4],[0]],
-                    [['B'],[1],[0]]
+                    [['B'],[0],[0]],
+                    [['R'],[0],[0]]
         ];    
         for(var name in Memory.creeps) {
             switch(name.charAt(0)) {
@@ -23,6 +23,9 @@ var checkSpawns = {
                 case 'B':
                     levels[3][2]++;
                     break;
+                case 'R':
+                    levels[4][2]++;
+                    break;
 
             }
             if(!Game.creeps[name]) {
@@ -30,7 +33,7 @@ var checkSpawns = {
                 console.log('Clearing non-existing creep memory:', name);
             }
         }
-        for (var i = 0; i < 4; i++)
+        for (var i = 0; i < 5; i++)
         {
             console.log(levels[i][0] + ': ' +levels[i][2]+'/'+levels[i][1])
             if (levels[i][2] < levels[i][1]) {
@@ -56,21 +59,24 @@ function makeName(roleLetter) {
         case 'B':
             role = [['B'],['builder'],[WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
             break;
+        case 'R':
+            role = [['R'],['repairer'],[RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
+            break;
     }
     var usedName = -3;
     var x=0;
     while (usedName == -3 || x < roleLetter[1]) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!spawn #'+x);
         x++;
-        if (x > 2) {
+        if (x > 2 || (role[2] == 'T' && x > 1)) {
             console.log('Attempting spawn[' + role[1] + '] on Spawn 2');
             usedName = Game.spawns['Spawn2'].createCreep(role[2], role[0] + '-' + x, {role: role[1]});
-            if (usedName != -4 && usedName != -3)
+            if (usedName == 0)
                 console.log('Success! Spawning new ' + role[1] + ': ' + usedName);
         } else {
             console.log('Attempting spawn[' + role[1] + '] on Spawn 1');
             usedName = Game.spawns['Spawn1'].createCreep(role[2], role[0] + '-' + x, {role: role[1]});
-            if (usedName != -4 && usedName != -3)
+            if (usedName == 0)
                 console.log('Success! Spawning new ' + role[1] + ': ' + usedName);
         }
     }

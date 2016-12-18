@@ -2,66 +2,38 @@ var roleRepairer = {
   
     /** @param {Creep} creep **/
     run: function(creep) {
-                      
-        if(creep.name == 'R-1' && creep.pos.roomName == 'W37S74') {
-            creep.moveTo(Game.flags.Flag3);
-            return;
-        }
-
-        if(creep.memory.repairing && creep.carry.energy == 0) {
-            creep.memory.repairing = false;
-            creep.say('harvesting');
-
-        }
-        if(!creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
-           var towers = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-                    }
+            if (creep.pos.roomName == 'W38S74'){
+            var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+            if(target) {
+                if(creep.pickup(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                    return;
+                }
+            }    
+        
+        
+            var targets = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+                filter: { owner: { username: 'bSelect' } }
             });
-            if(towers.length > 0) {
-                if(creep.transfer(towers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(towers[0]);
-                    creep.say('towers');
+            //targets = Game.getObjectById('5849240981f198bb426337da');
+            console.log(targets);
+            if(targets) {
+                if (creep.rangedAttack(targets) == ERR_NOT_IN_RANGE) {
+                    if (creep.pos.y >= 5) {
+                        creep.moveTo(targets);
+                    }
                 }
-                return;
             }
             
-            creep.memory.repairing = true;
-            creep.say('Repairing');
-
-        }
-
-        if(creep.memory.repairing) {
-            var targets = creep.room.find(FIND_STRUCTURES, {
-                 filter: object => object.hits < (object.hitsMax * 0.9) && object.structureType != STRUCTURE_WALL
-                });
             
-              
-            targets.sort((a,b) => (a.hits/a.hitsMax) - (b.hits/b.hitsMax));
-
-            if(targets.length > 0) {
-                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);    
-                }
-            }  else {
-                creep.say('error');
+            if (!targets) {
+                creep.moveTo(Game.flags.Flag4);
             }
-        } else {
-            creep.memory.repairing = false;
-            // var targets = Game.getObjectById('584cb54e9300feab70921b67');
-            var closestTarget = Game.getObjectById('5836b7698b8b9619519f054f');    
-                if(creep.harvest(closestTarget) != 0) {
-                    creep.moveTo(closestTarget);
-                    creep.say('Delivering');
-                }
-            
-                // if(targets.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                //     creep.moveTo(targets);
-                // }
-            
+            } else {
+                creep.moveTo(Game.flags.Flag4);
             }
-        }
+        
+    }
 }
     
 module.exports = roleRepairer;
