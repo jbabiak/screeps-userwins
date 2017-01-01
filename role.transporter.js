@@ -3,94 +3,87 @@ var roleTransporter = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-     
-        if (creep.memory.transporting == true && creep.carry.energy >= 50){
+
+        if (creep.memory.transporting == true){
 
 
-                var targets = creep.room.find(FIND_STRUCTURES, {
+            var targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
-                                structure.energy < structure.energyCapacity;
-                        }
-                });
-                if (targets.length == 0) {
-
-
-                    if (creep.name == 'T-1') {
-                        var target = Game.getObjectById('5855b94afdd1d5b2443a3bad');//atack tower
-                        if (target.energy == 1000) {
-                            target = Game.getObjectById('584a347d0813bdcd30365aee'); //repair tower
-                            if (target.energy >= 750) {
-                                target = Game.getObjectById('585198e5e1e0780006a0227f');//link from
-                                if (target.energy == 800){
-                                    linkTo = Game.getObjectById('5851aabb1ef90b367bf3e887');
-                                    target.transferEnergy(linkTo);
-                                    target = Game.getObjectById('584d34d99871a4691e1a8750');//big container
-                                }
-                            }
-                        }
+                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                structure.energy < structure.energyCapacity;
+        }
+        });
+            if (targets.length == 0) {
+                var towers = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_TOWER && structure.energy < 1000);
                     }
-
-
-                     if (creep.name == 'T-2') {
-                        var target = Game.getObjectById('5855fce111cbb5821f90bb21');//attack tower
-                        if (target.energy == 1000) {
-                            target = Game.getObjectById('5850371231030bbf292112bc'); //repair tower
-                            if (target.energy >= 750){
-                                target = Game.getObjectById('585555320f8ad89a332c0331');//link from
-                                if (target.energy == 800){
-                                        linkTo = Game.getObjectById('585566e4792310a24fc5bfb9');
-                                        target.transferEnergy(linkTo);
-                                        target = Game.getObjectById('5852cfca48b624d8485adae9');//big container
-                                }
-                            }
-                        }
-                     }
-
-
+                });
+                if (towers) {
+                    var target = towers[0];
+                }
+                if (target) {
                     if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     }
-                    creep.say(target);
-                    return;
-
+                    console.log(target + ' transporter: ' + creep.name);
+                } else {
+                    if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.room.storage);
+                    }
                 }
 
-
-            var closestTarget = creep.pos.findClosestByRange(targets);
-            if(targets.length > 0) {
-                if(creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(closestTarget);
-                    creep.say('Transporting');
-                }
-            }
-        }
-        if(creep.carry.energy < 50) {
-            creep.say('under50');
-             creep.memory.transporting = false;
+            } else {
 
 
-
-
-            targets = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) &&
-                            structure.store[RESOURCE_ENERGY] >= 400;
-                }
-            });
-            targets.sort((a,b) => (b.store[RESOURCE_ENERGY]) - (a.store[RESOURCE_ENERGY]));
-
-
-            if (targets[0]) {
-                if(targets[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(targets[0]);
-                creep.say('Grabbing');
-                }
+                var closestTarget = creep.pos.findClosestByRange(targets);
+              
+                    if (creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(closestTarget);
+                    }
+                
             }
         } else {
+            if (creep.name == 'T-5' || creep.name == 'T-6'){
+                var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY, {
+                filter: (d) => {return (d.resourceType == RESOURCE_ENERGY)}});
+                    if (dropenergy) {
+                        if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(dropenergy)
+                    }
+                }
+            } else {
+                var flags = creep.room.find(FIND_FLAGS, {
+                        filter: (structure) => {
+                        return (structure.name == creep.name);
+                    }
+                });
+                if(creep.pos.isEqualTo(flags[0].pos)) {
+                    var targets = creep.room.find(FIND_STRUCTURES, {
+                            filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_LINK);
+                        }
+                    });
+                    var closestTarget = creep.pos.findClosestByRange(targets);
+                    if (closestTarget.structureType == STRUCTURE_CONTAINER) {
+                        closestTarget.transfer(creep, RESOURCE_ENERGY);
+                    } else {
+                        console.log(closestTarget);
+                        creep.withdraw(closestTarget, RESOURCE_ENERGY);
+                    }
+                } else {
+                    creep.moveTo(flags[0]);
+                }
+            }
+
+        }
+        if (creep.carry.energy == 0){
+            creep.memory.transporting = false;
+        }
+        else {
             creep.memory.transporting = true;
         }
-	}
+    }
 };
 
 module.exports = roleTransporter;
