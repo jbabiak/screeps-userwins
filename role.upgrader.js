@@ -7,12 +7,10 @@ var roleUpgrader = {
         }
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
-            creep.say('harvesting');
 	    }
 
 	    if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
 	        creep.memory.upgrading = true;
-	        creep.say('upgrading');
 	    }
 
 	    if(creep.memory.upgrading) {
@@ -22,19 +20,17 @@ var roleUpgrader = {
             }
         }
         else {
-            if (creep.name == 'U-3' || creep.name == 'U-4'){
-                var targets = Game.getObjectById('585bcbbec76ed5ef3372bf43');
-            } else  if (creep.name == 'U-1' || creep.name == 'U-2') {
-                var targets = Game.getObjectById('585a0bf5f44db59b723333f1');
-            }   else {
+            if (creep.name == 'U-5' || creep.name == 'U-6'){
                 var targets = Game.getObjectById('586030a99ac77cb52126205a');
-            }
-                           
-
-            if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-               // console.log(targets.transferEnergy(creep, RESOURCE_ENERGY));
+                if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets);
                     }
+            } else  {
+                if(creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.room.storage);
+                    }
+            }
+                           
             
             
         }

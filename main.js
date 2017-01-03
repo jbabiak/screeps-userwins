@@ -1,7 +1,8 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
-//var roleRepairer = require('role.repairer');
+var roleOuterharvester = require('role.outerharvester');
+var roleFarcarrier = require('role.farcarrier');
 var roleAttacker = require('role.attacker');
 var roleScout = require('role.scout');
 var roleTransporter = require('role.transporter');
@@ -15,8 +16,14 @@ module.exports.loop = function () {
     checkSpawns.run();
    // var total = Game.cpu.getUsed() - firstcpu;
    // console.log('checkspawns did :' + total + 'cpus');
+   /**var flags = creep.room.find(FIND_FLAGS, {
+                            filter: (structure) => {
+                                return (structure.name == creep.name);
+                            }
+                        });**/
+   
     for(var name in Game.rooms) {
-        console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
+        //console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
         var towers = Game.rooms[name].find(FIND_STRUCTURES, {
                     filter: object => object.structureType == STRUCTURE_TOWER
                 });
@@ -77,7 +84,13 @@ module.exports.loop = function () {
             }
             else if (creep.memory.role == 'scout') {
                 roleScout.run(creep);
-            }    
+            }
+            else if (creep.memory.role == 'outerharvester') {
+                roleOuterharvester.run(creep);
+            }
+            else if (creep.memory.role == 'farcarrier') {
+                roleFarcarrier.run(creep);
+            }
            // case 'repairer':
            //     roleRepairer.run(creep);
           //  case 'scout':
