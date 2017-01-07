@@ -9,9 +9,22 @@ var roleFarCarrier = {
 
 
             if(creep.room.storage) {
+                 var targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                        structure.energy < structure.energyCapacity;
+                    }
+                });
+                if (targets) {
+                    var closestTarget = creep.pos.findClosestByRange(targets);
               
-                if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.storage);
+                    if (creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(closestTarget);
+                    }
+                } else {
+                    if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.room.storage);
+                    }
                 }
             } else {
                 var road = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -33,10 +46,17 @@ var roleFarCarrier = {
             }
             });
                 var closestTarget = creep.pos.findClosestByRange(targets);
-                if (closestTarget.structureType == STRUCTURE_CONTAINER) {
-                    closestTarget.transfer(creep, RESOURCE_ENERGY);
+                if (closestTarget) {
+                    if (closestTarget.structureType == STRUCTURE_CONTAINER) {
+                        closestTarget.transfer(creep, RESOURCE_ENERGY);
+                    } else {
+                        creep.withdraw(closestTarget, RESOURCE_ENERGY);
+                    }
                 } else {
-                    creep.withdraw(closestTarget, RESOURCE_ENERGY);
+                    var closestDropped = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY); 
+                    if (closestDropped) {
+                        creep.pickup(closestDropped);
+                    }
                 }
             } else {
                 creep.moveTo(Game.flags[creep.name].pos);

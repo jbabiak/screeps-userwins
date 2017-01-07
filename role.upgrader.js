@@ -14,10 +14,11 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
-
+            
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }
+            
         }
         else {
             if (creep.name == 'U-5' || creep.name == 'U-6'){

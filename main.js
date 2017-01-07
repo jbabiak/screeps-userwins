@@ -6,6 +6,7 @@ var roleFarcarrier = require('role.farcarrier');
 var roleAttacker = require('role.attacker');
 var roleScout = require('role.scout');
 var roleTransporter = require('role.transporter');
+var roleInvader = require('role.invader');
 //var roleStarter = require('role.starter');
 var checkSpawns = require('game.spawner');
 
@@ -54,7 +55,9 @@ module.exports.loop = function () {
     }
     
     for(var name in Game.creeps) {
+        
         var creep = Game.creeps[name];
+        
             if (creep.memory.role == 'harvester') {
                 firstcpu = Game.cpu.getUsed();
                 roleHarvester.run(creep);
@@ -90,6 +93,9 @@ module.exports.loop = function () {
             }
             else if (creep.memory.role == 'farcarrier') {
                 roleFarcarrier.run(creep);
+            }
+            else if (creep.memory.role == 'invader') {
+                roleInvader.run(creep);
             }
            // case 'repairer':
            //     roleRepairer.run(creep);

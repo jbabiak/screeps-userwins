@@ -2,6 +2,7 @@ var roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+
         if (creep.carry.energy >= 2 && creep.memory.harvesting == false){
          
             if (creep.name == 'H-6') {
@@ -38,7 +39,7 @@ var roleHarvester = {
             var sources = creep.pos.findClosestByRange(FIND_SOURCES);
             if(creep.pos.isEqualTo(Game.flags[creep.name].pos)) {
                 if(creep.harvest(sources) != 0) {
-                    if (flags[0]) {
+                    if (Game.flags[creep.name]) {
                         creep.moveTo(Game.flags[creep.name].pos);
                     }
                 }
