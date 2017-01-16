@@ -12,19 +12,17 @@ var roleFarCarrier = {
                  var targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
                         return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
-                        structure.energy < structure.energyCapacity;
-                    }
+                structure.energy < structure.energyCapacity;
+                }
                 });
-                if (targets) {
-                    var closestTarget = creep.pos.findClosestByRange(targets);
+                if (targets.length > 0) {
+                var closestTarget = creep.pos.findClosestByRange(targets);
               
                     if (creep.transfer(closestTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(closestTarget);
                     }
-                } else {
-                    if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.room.storage);
-                    }
+                } else if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.storage);
                 }
             } else {
                 var road = creep.pos.findClosestByRange(FIND_STRUCTURES, {

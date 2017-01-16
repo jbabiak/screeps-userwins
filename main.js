@@ -11,6 +11,8 @@ var roleInvader = require('role.invader');
 var checkSpawns = require('game.spawner');
 
 module.exports.loop = function () {
+    //W75N61
+
     //var myMemory = JSON.parse(RawMemory.get("creeps"));
     //console.log(JSON.stringify(myMemory));
    // var firstcpu = Game.cpu.getUsed();
@@ -24,10 +26,13 @@ module.exports.loop = function () {
                         });**/
    
     for(var name in Game.rooms) {
-        //console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
+       // console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
+        Memory.stats.rooms[name].availableEnergy = Game.rooms[name].energyAvailable;
+      
         var towers = Game.rooms[name].find(FIND_STRUCTURES, {
                     filter: object => object.structureType == STRUCTURE_TOWER
                 });
+            
                 
 
         for (var i = 0; i < towers.length; i++) {
@@ -45,9 +50,16 @@ module.exports.loop = function () {
                          filter: object => object.hits < (object.hitsMax * 0.75) && object.structureType != STRUCTURE_RAMPART && object.structureType != STRUCTURE_WALL
                     });
                 }
+                if (targets.length == 0) {
+                    var targets = Game.rooms[name].find(FIND_STRUCTURES, {
+                         filter: object => object.hits < 100000 && object.structureType == STRUCTURE_WALL || object.structureType == STRUCTURE_RAMPART
+                    });
+                }
                 targets.sort((a,b) => a.hits - b.hits);
                 if(targets.length > 0) {
-                    towers[i].repair(targets[0]);
+                    if (towers[i].energy > 500) {
+                        towers[i].repair(targets[0]);
+                    }
                 }
             }
         }

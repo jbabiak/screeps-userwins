@@ -21,7 +21,7 @@ var roleUpgrader = {
             
         }
         else {
-            if (creep.name == 'U-5' || creep.name == 'U-6'){
+            if (creep.name == 'U-5' || creep.name == 'U-6' || creep.name == 'U-7'){
                 var targets = Game.getObjectById('586030a99ac77cb52126205a');
                 if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets);

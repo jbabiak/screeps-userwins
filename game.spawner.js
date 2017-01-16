@@ -2,264 +2,160 @@
 
 var checkSpawns = {
     run: function() {
-        var levels = [];
-        levels = [  [['A'],[0],[0]],
-                    [['S'],[0],[0]],
-                    [['U'],[4],[0]],
-                    [['B'],[4],[0]],
-                    [['T'],[4],[0]],
-                    [['H'],[4],[0]],
-                    [['O'],[2],[0]],
-                    [['F'],[2],[0]],
-                    [['I'],[0],[0]]
-        ];    
-        for(var name in Memory.creeps) {
-            switch(name.charAt(0)) {
-                case 'T':
-                    levels[4][2]++;
-                    break;
-                case 'H':
-                    levels[5][2]++;
-                    break;
-                case 'U':
-                    levels[2][2]++;
-                    break;
-                case 'B':
-                    levels[3][2]++;
-                    break;
-                case 'A':
-                    levels[0][2]++;
-                    break;
-                case 'S':
-                    levels[1][2]++;
-                    break;
-                case 'O':
-                    levels[6][2]++;
-                    break;
-                case 'F':
-                    levels[7][2]++;
-                    break;
-                case 'I':
-                    levels[8][2]++;
-                    break;
-             
 
-            }
+        for(var name in Memory.creeps) {
+
             
             if(!Game.creeps[name]) {
-                //if (Memory.creeps[name]._move){
-                //    var roomname = Memory.creeps[name]._move.room;
-                //    var room = Room.roomname;
-                //    var closestHostile = Room[room].find(FIND_HOSTILE_CREEPS);
-                //    if(closestHostile) {
-                //        console.log('<h1 style="color:red;">' + closestHostile[0] + ' killed ' + name + ' in room:' + room);
-                //    }
-               // }
+                queueSpawn(name);
                 delete Memory.creeps[name];
                 console.log('Clearing non-existing creep memory:', name);
             }
             var creep = Game.creeps[name];
             if (creep){
                 if (creep.hits < creep.hitsMax) {
-                    if (!Game.creeps['A-1']) {
+                    if (!Game.creeps['I-1'] || Game.creeps[name].role == 'attacker') {
                         var bads = creep.room.find(FIND_HOSTILE_CREEPS);
                         if (bads.length > 0) {
-                            console.log('bads: ' + bads[0] + creep.room);   
+                          //  console.log('bads: ' + bads[0] + creep.room);   
                             Memory.help = creep.room.name;
                         } else {
                             Memory.help = 'safe';
                         }
                     }
-                    console.log('uh oh' + creep.name);
+                   // console.log('uh oh' + creep.name);
                 }    
             }
         }
-        for (var i = 0; i < 9; i++)
-        {
-            console.log(levels[i][0] + ': ' +levels[i][2]+'/'+levels[i][1])
-            if (levels[i][2] < levels[i][1]) {
-                makeName(levels[i][0], levels[i][1]);
+        if ( Memory.help != 'safe') {
+            role = [];
+            if (Memory.help == 'W78N79'){
+                role = ['A-2','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W77N79.Queue[0] != role) {
+                 //   Memory.Rooms.W77N79.Queue.splice(0, 0, role);
+                }                Memory.help = 'safe';
+            } else if (Memory.help == 'W76N79'){
+                role = ['A-1','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W77N79.Queue[0] != role) {
+                 //   Memory.Rooms.W77N79.Queue.splice(0, 0, role);
+                }
+                Memory.help = 'safe';
+            } else if (Memory.help == 'W76N78'){
+                role = ['A-3','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W77N78.Queue[0] != role) {
+                 //   Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                }
+                Memory.help = 'safe';
+            } else if (Memory.help == 'W77N77'){
+                role = ['A-4','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W77N78.Queue.length < 5) {
+                 //   Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                }
+                Memory.help = 'safe';
+            } else if (Memory.help == 'W78N78'){
+                role = ['A-5','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W78N77.Queue.length < 5) {
+                 //   Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                }
+                Memory.help = 'safe';
+            } else if (Memory.help == 'W78N76'){
+                role = ['A-6','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
+                if (Memory.Rooms.W78N77.Queue.length < 5 && !Game.creeps['A-6']) {
+                  //  Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                }
+                Memory.help = 'safe';
+            }
+        }
+        for(var thisroom in Memory.Rooms) {
+            var actualroom = Memory.Rooms[thisroom];
+            if (!actualroom.Queue) {
+                actualroom.Queue = new Array();
+            }
+            if (actualroom.Queue.length > 0) {
+                for (y = 0; y < actualroom.Spawners.length; y++) {
+                    var spawner = actualroom.Spawners[y];
+                    var x = actualroom.Queue.length;
+                    if (actualroom.Queue.length > 2) {
+                        x = 2;
+                    }
+                    
+                    for (i = 0; i < x; i++) {
+                        var newQueue = actualroom.Queue[i];
+                        var str = newQueue[2];
+                        str = str.replace('[','');
+                        str = str.replace(']','');
+                        var res = str.split(",");
+                        var bodyparts = new Array();
+                        for (i = 0; i < res.length; i++) {
+                            switch (res[i]) {
+                                case 'WORK':
+                                    bodyparts[i] = WORK;
+                                    break;
+                                case 'MOVE':
+                                    bodyparts[i] = MOVE;
+                                    break;
+                                case 'CARRY':
+                                    bodyparts[i] = CARRY;
+                                    break;
+                                case 'ATTACK':
+                                    bodyparts[i] = ATTACK;
+                                    break;
+                                case 'RANGED_ATTACK':
+                                    bodyparts[i] = RANGED_ATTACK;
+                                    break;
+                                case 'HEAL':
+                                    bodyparts[i] = HEAL;
+                                    break;
+                                case 'CLAIM':
+                                    bodyparts[i] = CLAIM;
+                                    break;
+                                case 'TOUGH':
+                                    bodyparts[i] = TOUGH;
+                                    break;
+                            }
+                        }
+                        var newCreep = Game.spawns[spawner].createCreep(bodyparts, newQueue[0], {role: newQueue[1]});
+                        if (newCreep == -3) {
+                            actualroom.Queue.splice(0, 1);
+                            console.log('Removing from queue' + newQueue[0]);
+                        } else if (newCreep == newQueue[0]) {
+                            console.log('Spawning ' + newQueue[0]);
+                            //actualroom.Queue.splice(i, 1);
+                        } else {
+                            if (newCreep != -6 && newCreep != -4){
+                                console.log('im broken' + newQueue[0] + '  ' + newCreep);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 module.exports = checkSpawns;
 
-function makeName(roleLetter, number) {
-    var role = [];
-                    Memory.help = 'safe';
-
-    if ( Memory.help != 'safe') {
-        if (Memory.help == 'W78N79'){
-            console.log('trying to save!!');
-            role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-            var usedName = Game.spawns['Spawn1'].createCreep(role[2], 'A-2', {role: role[1]}); 
-            if (usedName == -3) {
-                Memory.help = 'safe';
-            }
-        } else if (Memory.help == 'W76N79'){
-            console.log('trying to save!!');
-            role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-            var usedName = Game.spawns['Spawn1'].createCreep(role[2], 'A-1', {role: role[1]}); 
-            if (usedName == -3) {
-                Memory.help = 'safe';
-            }
-        } else if (Memory.help == 'W76N78'){
-            console.log('trying to save!!');
-            role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-            var usedName = Game.spawns['Spawn2'].createCreep(role[2], 'A-3', {role: role[1]}); 
-            if (usedName == -3) {
-                Memory.help = 'safe';
-            }
-        } else if (Memory.help == 'W77N77'){
-            console.log('trying to save!!');
-            role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-            var usedName = Game.spawns['Spawn2'].createCreep(role[2], 'A-4', {role: role[1]}); 
-            if (usedName == -3) {
-                Memory.help = 'safe';
-            }
-        } else if (Memory.help == 'W78N78'){
-            console.log('trying to save!!');
-            role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-            var usedName = Game.spawns['Spawn3'].createCreep(role[2], 'A-5', {role: role[1]}); 
-            if (usedName == -3) {
-                Memory.help = 'safe';
-            }
-        }
-        
-    } else {
-    
-        var usedName = -3;
-        var x=1;
-        while (usedName == -3 && x <= number) {
-            
-            if (x > 4 || roleLetter[0] == 'i' ) {
-                switch(roleLetter[0]) {
-                    case 'H':
-                        role = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'U':
-                        role = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]];
-                        break;
-                    case 'T':
-                        role = [['T'],['transporter'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'B':
-                        role = [['2'],['builder'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'A':
-                        role = [['A'],['attacker'],[TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK]];
-                        break;
-                    case 'S':
-                        role = [['S'],['scout'],[CLAIM,CLAIM,MOVE,MOVE]];
-                        break;
-                    case 'O':
-                        role = [['O'],['outerharvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'F':
-                        role = [['F'],['farcarrier'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'I':
-                        role = [['I'],['invader'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-                        break;
-                }
-            } else  if (x > 2 || roleLetter[0] == 'B'){
-                switch(roleLetter[0]) {
-                    case 'H':
-                        role = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'U':
-                        role = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]];
-                        break;
-                    case 'T':
-                        role = [['T'],['transporter'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                       //role = [['T'],['transporter'],[CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'B':
-                        role = [['B'],['builder'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'A':
-                        //role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK]];
-                        role = [['A'],['attacker'],[TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK]];
-            
-                        break;
-                    case 'S':
-                        role = [['S'],['scout'],[CLAIM,CLAIM,MOVE,MOVE]];
-                        break;
-                    case 'O':
-                        role = [['O'],['outerharvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'F':
-                        role = [['F'],['farcarrier'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'I':
-                        role = [['I'],['invader'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-                        break;
-                }
-            } else {
-                switch(roleLetter[0]) {
-                    case 'H':
-                       role = [['H'],['harvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'U':
-                        role = [['U'],['upgrader'],[WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]];
-                        break;
-                    case 'T':
-                        role = [['T'],['transporter'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                       //role = [['T'],['transporter'],[CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'B':
-                        role = [['B'],['builder'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'A':
-                        //role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK]];
-                        role = [['A'],['attacker'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK]];
-            
-                        break;
-                    case 'S':
-                        role = [['S'],['scout'],[CLAIM,CLAIM,MOVE,MOVE]];
-                        break;
-                    case 'O':
-                        role = [['O'],['outerharvester'],[WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'F':
-                        role = [['F'],['farcarrier'],[WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]];
-                        break;
-                    case 'I':
-                        role = [['I'],['invader'],[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]];
-                        break;
+function queueSpawn(creepname) {
+    for(var thisroom in Memory.Rooms) {
+        var actualroom = Memory.Rooms[thisroom];
+        for(var spawntypes in actualroom.Spawns) {
+            var spawntype = actualroom.Spawns[spawntypes];
+            for (i = 0; i < spawntype.Names.length; i++) {
+                var cname = spawntype.Names[i];
+                if (creepname == cname) {
+                    //queue it up
+                    var newQueue = [];
+                    newQueue = [cname,spawntype.role, spawntype.stats];
+                    if (creepname.charAt(0) == 'T' || creepname.charAt(0) == 'H') {
+                        actualroom.Queue.splice(0, 0, newQueue);
+                    } else {
+                        actualroom.Queue.push(newQueue);
+                    }
+                    console.log('Queueing..' + newQueue[0]);
+                    return;
                 }
             }
-            if (x > 4 || roleLetter[0] == 'i') {
-                console.log('Attempting spawn[' + role[1] + '] on Spawn 3');
-                usedName = Game.spawns['Spawn3'].createCreep(role[2], role[0] + '-' + x, {role: role[1]});
-                if (usedName == 0){
-                    console.log('Success! Spawning new ' + role[1] + ': ' + usedName);
-                }
-            } else if (x > 2) {
-              //  console.log('Attempting spawn[' + role[1] + '] on Spawn 2');
-                usedName = Game.spawns['Spawn2'].createCreep(role[2], role[0] + '-' + x, {role: role[1]});
-                if (usedName == 0){
-                    console.log('Success! Spawning new ' + role[1] + ': ' + usedName);
-                }
-                if (usedName == -4){
-                    usedName = -3;
-                //    console.log('reseting usenamed' + usedName);
-                }
-            } else {
-              //  console.log('Attempting spawn[' + role[1] + '] on Spawn 1');
-                usedName = Game.spawns['Spawn1'].createCreep(role[2], role[0] + '-' + x, {role: role[1]});
-                if (usedName == 0){
-                    console.log('Success! Spawning new ' + role[1] + ': ' + usedName);
-                }
-                if (usedName == -4){
-                    usedName = -3;
-                //    console.log('reseting usenamed' + usedName);
-                }
-            }
-            x++;
-    
         }
     }
 }
+
 

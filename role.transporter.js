@@ -3,9 +3,27 @@ var roleTransporter = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
+        if (creep.carry.energy == 0){
+            creep.memory.transporting = false;
+        }
+        else if (creep.carry.energy == creep.carryCapacity) {
+            creep.memory.transporting = true;
+        }
         if (creep.memory.transporting == true){
-
+            if (creep.name == 'T-7') {
+                if (creep.room.storage.store[RESOURCE_ENERGY] > 10000) {
+                 var terminal = Game.getObjectById('587149570c51a7462406d23b');
+                            if(creep.transfer(terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                                creep.moveTo(terminal);
+                            }
+                } else {
+                   var upgraderStorage = Game.getObjectById('586030a99ac77cb52126205a');
+                    if(creep.transfer(upgraderStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(upgraderStorage);
+                    }
+                }
+                     return;   
+            }
 
             var targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
@@ -19,7 +37,7 @@ var roleTransporter = {
                         return (structure.structureType == STRUCTURE_TOWER && structure.energy < 1000);
                     }
                 });
-                if (towers) {
+                if (towers && creep.name != 'T-6') {
                     var target = towers[0];
                 }
                 if (target) {
@@ -57,7 +75,7 @@ var roleTransporter = {
                 
             }
         } else {
-            if (creep.name == 'T-6'){
+            if (creep.name == 'T-6' || creep.name == 'T-7'){
                 if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(creep.room.storage);
                 }
@@ -81,12 +99,7 @@ var roleTransporter = {
             }
 
         }
-        if (creep.carry.energy == 0){
-            creep.memory.transporting = false;
-        }
-        else if (creep.carry.energy == creep.carryCapacity) {
-            creep.memory.transporting = true;
-        }
+        
     }
 };
 

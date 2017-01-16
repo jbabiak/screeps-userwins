@@ -4,9 +4,10 @@
     run: function(creep) {
         
 
-    
-  
-         var targets = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+
+        
+         //var targets = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
+         var targets = Game.getObjectById('585e7b9feddeeb6b1b379bc5');
          if (targets) {
           if (creep.attack(targets) == ERR_NOT_IN_RANGE) {
 
@@ -14,7 +15,7 @@
 
           }
         }else {
-            creep.moveTo(Game.flags[creep.name].pos);
+            creep.moveTo(Game.flags.Attack);
            
         }
     } 
