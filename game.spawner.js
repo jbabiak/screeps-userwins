@@ -31,39 +31,40 @@ var checkSpawns = {
             role = [];
             if (Memory.help == 'W78N79'){
                 role = ['A-2','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W77N79.Queue[0] != role) {
-                 //   Memory.Rooms.W77N79.Queue.splice(0, 0, role);
-                }                Memory.help = 'safe';
+                if (!containsObject(role, Memory.Rooms.W77N79.Queue)) {
+                  Memory.Rooms.W77N79.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
+                }
             } else if (Memory.help == 'W76N79'){
                 role = ['A-1','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W77N79.Queue[0] != role) {
-                 //   Memory.Rooms.W77N79.Queue.splice(0, 0, role);
+                if (!containsObject(role, Memory.Rooms.W77N79.Queue)) {
+                  Memory.Rooms.W77N79.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
                 }
-                Memory.help = 'safe';
             } else if (Memory.help == 'W76N78'){
                 role = ['A-3','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W77N78.Queue[0] != role) {
-                 //   Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                if (!containsObject(role, Memory.Rooms.W7778.Queue)) {
+                  Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
                 }
-                Memory.help = 'safe';
             } else if (Memory.help == 'W77N77'){
                 role = ['A-4','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W77N78.Queue.length < 5) {
-                 //   Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                if (!containsObject(role, Memory.Rooms.W77N78.Queue)) {
+                  Memory.Rooms.W77N78.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
                 }
-                Memory.help = 'safe';
             } else if (Memory.help == 'W78N78'){
                 role = ['A-5','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W78N77.Queue.length < 5) {
-                 //   Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                if (!containsObject(role, Memory.Rooms.W78N77.Queue)) {
+                  Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
                 }
-                Memory.help = 'safe';
             } else if (Memory.help == 'W78N76'){
                 role = ['A-6','attacker','[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]'];
-                if (Memory.Rooms.W78N77.Queue.length < 5 && !Game.creeps['A-6']) {
-                  //  Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                if (!containsObject(role, Memory.Rooms.W78N77.Queue)) {
+                  Memory.Rooms.W78N77.Queue.splice(0, 0, role);
+                  Memory.help = 'safe';
                 }
-                Memory.help = 'safe';
             }
         }
         for(var thisroom in Memory.Rooms) {
@@ -157,5 +158,14 @@ function queueSpawn(creepname) {
         }
     }
 }
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i][0] == obj[0]) {
+            return true;
+        }
+    }
 
+    return false;
+}
 
