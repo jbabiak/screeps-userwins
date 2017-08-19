@@ -14,26 +14,32 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
-            
-            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
-            }
-            
+          /**  var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length > 0) {
+                    targets = creep.pos.findClosestByRange(targets);
+                    if(creep.build(targets) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(targets);
+                    }   
+            } else { 
+            **/
+
+
+                if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
+                }
+
+            //}
+
         }
         else {
-            if (creep.name == 'U-5' || creep.name == 'U-6' || creep.name == 'U-7'){
-                var targets = Game.getObjectById('586030a99ac77cb52126205a');
-                if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets);
-                    }
-            } else  {
+
                 if(creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(creep.room.storage);
                     }
-            }
-                           
-            
-            
+
+
+
+
         }
 	}
 };
